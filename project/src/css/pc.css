@@ -27,11 +27,11 @@
 }
 
 .container {
-    padding-top: 15px;
+    padding-top: 25px;
 }
 
 .leftContainer {
-    width: 400px;
+    /*width: 400px;*/
     float: left;
 }
 
@@ -80,12 +80,13 @@
 
 .imageblock {
     float: left;
+    padding: 10px;
 }
 
 .custom-card {
     padding: 5px;
 }
-
+¡
 .custom-card p {
     color: #999;
 }
@@ -171,7 +172,7 @@
 
 .tabs_product {
     float: left;
-    padding-left: 10px;
+    padding-left: 30px;
     width: 300px;
 }
 
@@ -213,4 +214,9 @@
     vertical-align: middle;
     top: 0;
     text-align: left;
+}
+
+.search-container{
+    padding-top: 25px;
+    margin-left: 30%;
 }

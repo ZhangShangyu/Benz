@@ -1,9 +1,17 @@
 import React from 'react';
-import {Icon, Form, Input, Button, message} from 'antd';
+import {Form, Input, Button, message} from 'antd';
+import { UserModel } from '../utils/dataModel'
 
 const FormItem = Form.Item;
 
 class Login extends React.Component {
+   static propTypes = {
+     formItemLayout: React.PropTypes.object.isRequired,
+     tailFormItemLayout: React.PropTypes.object.isRequired,
+     action: React.PropTypes.string.isRequired,
+     setHeaderState: React.PropTypes.func.isRequired,
+     setModalVisible: React.PropTypes.func.isRequired,
+  }
 
   constructor() {
     super();
@@ -13,41 +21,37 @@ class Login extends React.Component {
   }
 
   handleSubmitLogin(e) {
-    //页面开始向api提交数据
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
-      console.log(err);
         if (!err) {
           var formData = values;
-          // var myFetchOptions = {   method: 'GET' };
-          // fetch("http://newsapi.gugujiankong.com/Handler.ashx?action=" +
-          // this.state.action + "&userName=" + formData.username + "&password=" +
-          // formData.password, myFetchOptions)   .then(response => response.json())
-          // .then(json => {})   .catch(error => {     //error   });
-
-          const userInfo = localStorage.getItem('userInfo') || '';
-
-          if (userInfo == '') {
-            message.error('请先去注册！');
-            return;
-          }
-          if (formData.username == JSON.parse(userInfo).r_username && formData.password == JSON.parse(userInfo).r_password) {
-            if (this.props.action == 'login') {
-              const newState = {
-                hasLogined: true,
-                userNickName: formData.username,
+          if (this.props.action == 'login') {
+              let param = {
+                name: formData.username,
+                password: formData.password,
               }
-              this.props.setSet(newState);
-              localStorage.hasLogined = '1';
-              message.success('登录成功！');
-              this.props.form.resetFields();
-              this.props.setModalVisible(false);
-            }
-          } else {
-            message.error('账号或密码错误！');
+              UserModel.login(param,(data) => {
+                if(data.code === 200){
+                  const newState = {
+                    hasLogined: true,
+                    userNickName: formData.username,
+                  }
+                  this.props.setHeaderState(newState);
+                  this.props.form.resetFields();
+                  this.props.setModalVisible(false);
+                  UserModel.storeUser({
+                    username: formData.username,
+                    password: formData.password,
+                    userId: data.data,
+                  })
+                  message.success('登录成功')
+                } else {
+                  message.error('账号或密码错误！')
+                }
+              }, (err) => {
+                message.error(err)
+              })
           }
-          console.log(this.props.action );
-
         }
       });
   }

@@ -4,6 +4,7 @@ import Login from './login';
 import Register from './register';
 import { Row, Col, Menu, Icon, Tabs, Button, Modal} from 'antd';
 import logo from '../../img/logo.svg';
+import { UserModel } from '../utils/dataModel'
 
 const TabPane = Tabs.TabPane;
 
@@ -23,12 +24,12 @@ export default class Header extends React.Component {
 
   componentWillMount() {
     this.setState({current:this.props.selected});
-    const userInfo = localStorage.getItem('userInfo') || '';
-    if (userInfo != '' && localStorage.hasLogined == '1') {
+    const userInfo = UserModel.getUserInfo();
+    if (userInfo != '') {
       this.setState({
         hasLogined: true,
-        userNickName: JSON.parse(userInfo).r_username,
-        userId: localStorage.userId
+        userNickName: userInfo.username,
+        userId: userInfo.userId,
       });
     }
   }
@@ -54,7 +55,7 @@ export default class Header extends React.Component {
     }
   }
 
-  setSet(obj) {
+  setHeaderState(obj) {
     this.setState(obj);
   }
 
@@ -82,14 +83,8 @@ export default class Header extends React.Component {
       </Menu.Item>;
 
     const formItemLayout = {
-      labelCol: {
-        xs: {span: 24},
-        sm: {span: 6}
-      },
-      wrapperCol: {
-        xs: {span: 24},
-        sm: {span: 14}
-      }
+      labelCol: { xs: {span: 24}, sm: {span: 6} },
+      wrapperCol: { xs: {span: 24}, sm: {span: 14} }
     };
     const tailFormItemLayout = {
       wrapperCol: {
@@ -103,7 +98,7 @@ export default class Header extends React.Component {
         <Row>
           <Col span={2}/>
           <Col span={4}>
-             <a href='/' className='logo'>
+            <a href='/' className='logo'>
               <img src={logo} alt='logo'/>
               <span>Benz</span>
             </a>
@@ -139,7 +134,7 @@ export default class Header extends React.Component {
                     tailFormItemLayout={tailFormItemLayout}
                     setModalVisible={this.setModalVisible.bind(this)}
                     action={this.state.action}
-                    setSet={this.setSet.bind(this)}>
+                    setHeaderState={this.setHeaderState.bind(this)}>
                   </Login>
                 </TabPane>
                 <TabPane tab='注册' key='2'>

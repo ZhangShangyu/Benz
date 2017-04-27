@@ -1,5 +1,6 @@
 import React from 'react';
-import {Icon, Form, Input, Button, message} from 'antd';
+import {Form, Input, Button, message} from 'antd';
+import { UserModel } from '../utils/dataModel'
 
 const FormItem = Form.Item;
 
@@ -14,31 +15,26 @@ class Register extends React.Component {
   }
 
   handleSubmitReg(e) {
-    //页面开始向api提交数据
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
         if (!err) {
-          //console.log('values of form', values);
-          var formData = values;
-           var myFetchOptions = {
-             method: 'GET'
-           };
-           fetch("http://newsapi.gugujiankong.com/Handler.ashx?action=" + this.state.action + "&r_username=" + formData.r_username + "&r_password=" + formData.r_password + "&r_confirmPassword=" + formData.r_confirmPassword, myFetchOptions)
-             .then(response => response.json())
-             .then(json => {
-                localStorage.userId = json.UserId;
-              })
-             .catch(error => {
-               //error
-             });
-
-          localStorage.setItem('userInfo', JSON.stringify(formData));
-          localStorage.hasLogined = '0';
-          message.success('注册成功！');
-          this.props.form.resetFields();
-          this.props.setModalVisible(false);
+          let param = {
+            name: values.r_username,
+            password: values.r_password,
+          }
+          UserModel.register(param, (data) => {
+            if(data.code === 200){
+              message.success('注册成功！')
+              this.props.form.resetFields()
+              this.props.setModalVisible(false)
+            } else {
+              message.error(data.msg)
+            }
+          }, (err) => {
+            console.log('register err ' + err)
+          })
         }
-      });
+    })
   }
 
   handleConfirmBlur(e) {
