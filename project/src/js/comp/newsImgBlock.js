@@ -1,6 +1,7 @@
 import React from 'react';
 import {Card} from 'antd';
 import {Link} from 'react-router-dom';
+import { NewsModel } from '../utils/dataModel'
 
 export default class NewsImgBlock extends React.Component {
   constructor() {
@@ -11,67 +12,66 @@ export default class NewsImgBlock extends React.Component {
   }
 
   componentDidMount() {
-     var myFetchOptions = {
-      method: 'GET'
-    };
-    fetch('http://newsapi.gugujiankong.com/Handler.ashx?action=getnews&type=' + this.props.type + '&count=' + this.props.count, myFetchOptions)
-      .then(response => response.json())
-      .then(json => this.setState({news: json}))
-      .catch(error => {
-        console.log(error)
-      });
+    NewsModel.getNews(null, (data) => {
+      if (data.code == 200) {
+        this.setState( { news: data.data })
+      }
+    }, (err) => {
+      console.log(err)
+    })
   }
 
   render() {
-    const styleImage = {
+    const styles = {
+      image: {
         display: 'block',
-        width: this.props.imageWidth,
-        height: this.props.imageHeight,
+        width: '25%',
+        height: '100%',
         float: 'left',
-        padding: 10,
-    };
-    const styleHeader = {
+        padding: 8,
+      },
+      header: {
         overflow: 'hidden',
         marginTop: 10,
         fontSize: 18,
-    };
-    const styleContent = {
-      overflow: 'hidden',
-      fontSize:14,
-      marginBottom:20,
+      },
+      content: {
+        overflow: 'hidden',
+        fontSize:14,
+        marginBottom:20,
+      },
     }
+
 
     const news = this.state.news
     const newsList = news.length
-      ? news.map((newsItem, index) => (
-        <div key={index} >
-          {/*<div className='imageblock'>*/}
+      ? news.map((newsItem, index) => {
+      return (index < 6) &&
+        (<div key={index}>
             {/*<Link to={`details/${newsItem.uniquekey}`} target='_blank'>*/}
-              {/*<img style={styleImage} src={newsItem.thumbnail_pic_s} />*/}
+            {/*<img style={styleImage} src={newsItem.thumbnail_pic_s} />*/}
             {/*</Link>*/}
-          {/*</div>*/}
-
-          <Card>
-            <img style={styleImage} src={newsItem.thumbnail_pic_s} />
-            <div style={styleHeader}>
-               <h3>{newsItem.title}</h3>
-            </div>
-            <div style={styleContent}>
-               <p>{newsItem.author_name}</p>
-            </div>
-            <div>
-              <em>类型：楼评</em>
-              <em style={{paddingLeft:20}}>作者：楼评</em>
-              <em style={{paddingLeft:20}}>2017-4-29</em>
-            </div>
-          </Card>
-        </div>
-
-      ))
+            <Card>
+              <img style={styles.image} src={newsItem.titlePic}/>
+              <div style={styles.header}>
+                <h3>{newsItem.title}</h3>
+              </div>
+              <div style={styles.content}>
+                <p>{newsItem.newsAbstract}</p>
+              </div>
+              <div>
+                <em>类型：楼评</em>
+                <em style={{paddingLeft: 20}}>作者：{newsItem.creator}</em>
+                <em style={{paddingLeft: 20}}>{newsItem.createTime}</em>
+              </div>
+            </Card>
+          </div>
+        )
+      })
       : '没有加载到任何新闻';
 
     return (
-      <Card title={this.props.cardTitle} style={{width: this.props.width}} className='topNewsList'>
+      <Card title={this.props.cardTitle} style={{marginBottom: 15}}>
         {newsList}
       </Card>
     )

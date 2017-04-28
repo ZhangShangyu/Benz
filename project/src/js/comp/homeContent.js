@@ -14,14 +14,14 @@ export default class HomeContent extends React.Component {
           <div>
             <Row>
               <Col span={3}></Col>
-              <Col span={20} className='search-container'>
+              <Col span={20} style={{marginTop:25,marginLeft:'30%'}}>
                 <SearchBox/>
               </Col>
               <Col span={3}></Col>
             </Row>
             <Row>
               <Col span={5}></Col>
-              <Col span={10} className='container'>
+              <Col span={11} className='container'>
                 <div className="leftContainer">
                    <HouseRcmdImgBlock
                      count={6} type='guoji' cardTitle='房源推荐'/>
@@ -41,12 +41,10 @@ export default class HomeContent extends React.Component {
            </Row>
             <Row>
               <Col span={4}></Col>
-              <Col span={12} className='container'>
-                <div className="leftContainer">
+              <Col span={13} style={{paddingTop:25}}>
+                <div style={{width:'100%',float:'left'}}>
                    <NewsImgBlock
-                      count={6} type='guoji'
-                      width='100%' cardTitle='新闻'
-                      imageWidth='200px' imageHeight="160px"/>
+                     type='guoji' cardTitle='新闻'/>
                 </div>
               </Col>
               <Col span={1}></Col>
@@ -57,7 +55,7 @@ export default class HomeContent extends React.Component {
                   </TabPane>
                 </Tabs>
               </Col>
-             <Col span={3}></Col>
+             <Col span={2}></Col>
            </Row>
           </div>
         )

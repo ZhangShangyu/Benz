@@ -18,7 +18,7 @@ const Tools = {
     },
 
     getSearchFromObject:function(param, key) {
-        if(param == null) return '';
+        if (param == null) return '';
         let _search = '?';
         for (let key in param) {
             _search += `${key}=${encodeURIComponent(param[key])}&`
@@ -78,15 +78,9 @@ const UserModel = {
     // },
 }
 
-const ArticleModel={
-    pulish:(_params,_success,_error)=> {
-        _request('POST', `${API}article/pulish`, _params, _success, _error)
-    },
-    fetchList:(_params,_success,_error)=>{
-        _request('GET',`${API}article/fetchList`,_params,_success,_error)
-    },
-    fetchArticle:(_id,_success,_error)=>{
-      _request('GET',`${API}article/fetchArticle/${_id}`,null,_success,_error)
+const NewsModel={
+    getNews:(param,success,error)=>{
+      _request('GET', `${API}/news/get`, null, success, error)
     },
     giveStar:(_params,_success,_error)=>{
         _request('POST',`${API}article/giveStar`,_params,_success,_error)
@@ -96,4 +90,4 @@ const ArticleModel={
     }
 }
 
-export {UserModel,ArticleModel}
+export {UserModel,NewsModel}

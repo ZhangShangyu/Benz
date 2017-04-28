@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Home from './js/Home';
-import House from './js/House'
-import UserCenter from './js/comp/usercenter'
+import Home from './js/container/Home';
+import House from './js/container/House'
+import UserCenter from './js/container/UserCenter'
 import { HashRouter as Router, Route } from 'react-router-dom';
 import 'antd/dist/antd.css';
 import './css/pc.css'

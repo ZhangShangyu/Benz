@@ -7,7 +7,7 @@ export default class SearchBox extends React.Component {
     render() {
         return (
            <div>
-             <Button type="dashed" style={{ "font-weight": 'bold','color':'blue'}}>搜索</Button>
+             <Button type="dashed" style={{ fontWeight: 'bold',color: 'blue' }}>搜索</Button>
              &nbsp;&nbsp;
              <Search size="large"
                 placeholder="input search text"

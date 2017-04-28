@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import Header from './comp/header';
-import HouseContent from './comp/houseContent'
-import Footer from './comp/footer'
+import Header from '../comp/header';
+import HouseContent from '../comp/houseContent'
+import Footer from '../comp/footer'
 
 class House extends Component {
   render() {
