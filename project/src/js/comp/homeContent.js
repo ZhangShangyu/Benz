@@ -13,22 +13,22 @@ export default class HomeContent extends React.Component {
         return (
           <div>
             <Row>
-              <Col span={3}></Col>
-              <Col span={20} style={{marginTop:25,marginLeft:'30%'}}>
+              <Col span={8}></Col>
+              <Col span={8} style={{marginTop:25}}>
                 <SearchBox/>
               </Col>
-              <Col span={3}></Col>
+              <Col span={8}></Col>
             </Row>
             <Row>
               <Col span={5}></Col>
               <Col span={11} className='container'>
-                <div className="leftContainer">
+                <div >
                    <HouseRcmdImgBlock
                      count={6} type='guoji' cardTitle='房源推荐'/>
                 </div>
                </Col>
               <Col span={1}></Col>
-              <Col span={3}>
+              <Col span={4}>
                 <div>
                 <Tabs className='tabs_product'>
                   <TabPane tab='优质房源' key='1'>
@@ -37,7 +37,7 @@ export default class HomeContent extends React.Component {
                 </Tabs>
                 </div>
               </Col>
-              <Col span={4}></Col>
+              <Col span={3}></Col>
            </Row>
             <Row>
               <Col span={4}></Col>

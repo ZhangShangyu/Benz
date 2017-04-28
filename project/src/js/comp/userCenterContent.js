@@ -1,5 +1,7 @@
 import React from 'react'
-import {Row, Col, Card, Icon, Modal, Tabs, Upload,Button} from 'antd'
+import {Row, Col, Card, Icon, Modal,
+Tabs, Upload, Button, Input} from 'antd'
+
 import MyEditor from './myEditor'
 
 
@@ -12,6 +14,16 @@ export default class UserCenterContent extends React.Component {
 
     this.state = {
       showUploadNews: false,
+      previewImage: '',
+      previewVisible: false,
+      fileList: [
+        {
+          uid: -1,
+          name: 'xxx.png',
+          status: 'done',
+          url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'
+        }
+      ]
     }
   }
 
@@ -19,12 +31,52 @@ export default class UserCenterContent extends React.Component {
 
   }
 
-  showUploadNew() {
+  showUploadNews() {
     this.setState({ showUploadNews: true})
   }
 
+  closeUploadNews() {
+    this.setState({ showUploadNews: false})
+  }
+
+  handlePreview = (file) => {
+    console.log(file);
+    this.setState({
+      previewImage: file.url || file.thumbUrl,
+      previewVisible: true
+    });
+  }
+
+  handleCancel = () => this.setState({previewVisible: false});
+
+  handleChange = ({fileList,file}) => {
+    if(file.status === 'done'){
+      console.log(file);
+    }
+    this.setState({fileList: fileList});
+  }
 
   render() {
+    const styles = {
+      paddingNum: {
+        padding: 10,
+      },
+    }
+
+    const props = {
+      action: 'http://localhost:8080/news/upload',
+      headers: {
+        'Access-Control-Allow-Origin': '*'
+      },
+      listType: 'picture-card'
+    };
+
+    const uploadButton = (
+      <div>
+        <Icon type='plus'/>
+        <div className='ant-upload-text'>上传图片</div>
+      </div>
+    )
 
     const listRow = (
       <Row>
@@ -46,30 +98,61 @@ export default class UserCenterContent extends React.Component {
     const newsEditorRow = (
       <div style={{marginTop:'3%'}}>
         <Row>
-          <Col span={3}></Col>
-          <Col span={20}>
-            标题
+          <Col span={6}></Col>
+          <Col span={6}>
+            <Icon type="right" style={styles.paddingNum}/>标题:
+            <Input  placeholder="请输入标题" />
           </Col>
           <Col span={3}></Col>
         </Row>
         <Row>
-          <Col span={3}></Col>
-          <Col span={20}>
-            摘要
+          <Col span={6}></Col>
+          <Col span={6}>
+            <Icon type="right" style={styles.paddingNum} />摘要:
+            <Input type="textarea"  placeholder="请输入摘要" autosize={{ minRows: 2, maxRows: 6 }} />
           </Col>
           <Col span={3}></Col>
         </Row>
         <Row>
-          <Col span={3}></Col>
-          <Col span={20}>
-            上传展示图片
+          <Col span={6}></Col>
+          <Col span={6}>
+            <Icon type="right" style={styles.paddingNum} />上传展示图片
+            <div className='clearfix'>
+                <Upload
+                    {...props}
+                    fileList={this.state.fileList}
+                    onPreview={this.handlePreview}
+                    onChange={this.handleChange}>
+                    {this.state.fileList.length >= 3
+                      ? null
+                      : uploadButton}
+                  </Upload>
+                  <Modal
+                    visible={this.state.previewVisible}
+                    footer={null}
+                    onCancel={this.handleCancel}>
+                    <img alt='预览' width='100%' src={this.state.previewImage}/>
+                  </Modal>
+            </div>
           </Col>
           <Col span={3}></Col>
         </Row>
          <Row>
+          <Col span={6}></Col>
+          <Col span={13}>
+            <div style={{marginTop: 10}}>
+              <MyEditor/>
+            </div>
+          </Col>
           <Col span={3}></Col>
-          <Col span={20}>
-            <MyEditor/>
+        </Row>
+        <Row>
+          <Col span={6}></Col>
+          <Col span={6}>
+            <div style={styles.paddingNum}>
+              <Button type="dashed">提交</Button>&nbsp;&nbsp;&nbsp;
+              <Button type="dashed" onClick={this.closeUploadNews.bind(this)}>取消</Button>
+            </div>
           </Col>
           <Col span={3}></Col>
         </Row>
@@ -83,8 +166,10 @@ export default class UserCenterContent extends React.Component {
         <Row>
           <Col span={3}></Col>
           <Col span={20} style={{marginTop:'3%'}}>
-            <Button type="dashed" style={{ fontWeight: 'bold', color:'blue'}}
-              onClick={this.showUploadNew.bind(this)}>上传新闻</Button>
+            { !this.state.showUploadNews &&
+              <Button type="dashed" style={{fontWeight: 'bold', color: 'blue'}}
+                      onClick={this.showUploadNews.bind(this)}>上传新闻</Button>
+            }
           </Col>
         </Row>
         {contentRow}

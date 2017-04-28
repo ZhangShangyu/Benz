@@ -4,7 +4,7 @@ import {Row, Col} from 'antd';
 export default class Footer extends React.Component {
 
     render() {
-        const style = {"marginTop": this.props.topMagin}
+        const style = {"marginTop": '10%'}
         return (
             <footer style={style}>
                 <Row>
