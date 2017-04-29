@@ -43,8 +43,7 @@ export default class HomeContent extends React.Component {
               <Col span={4}></Col>
               <Col span={13} style={{paddingTop:25}}>
                 <div style={{width:'100%',float:'left'}}>
-                   <NewsImgBlock
-                     type='guoji' cardTitle='新闻'/>
+                   <NewsImgBlock cardTitle='新闻'/>
                 </div>
               </Col>
               <Col span={1}></Col>

@@ -47,10 +47,7 @@ export default class NewsImgBlock extends React.Component {
     const newsList = news.length
       ? news.map((newsItem, index) => {
       return (index < 6) &&
-        (<div key={index}>
-            {/*<Link to={`details/${newsItem.uniquekey}`} target='_blank'>*/}
-            {/*<img style={styleImage} src={newsItem.thumbnail_pic_s} />*/}
-            {/*</Link>*/}
+        (<Link to={`news-detail/${newsItem.id}`} target='_blank' style={{ color: 'gray' }}>
             <Card>
               <img style={styles.image} src={newsItem.titlePic}/>
               <div style={styles.header}>
@@ -61,11 +58,11 @@ export default class NewsImgBlock extends React.Component {
               </div>
               <div>
                 <em>类型：楼评</em>
-                <em style={{paddingLeft: 20}}>作者：{newsItem.creator}</em>
-                <em style={{paddingLeft: 20}}>{newsItem.createTime}</em>
+                <em style={{padding: 20}}>作者：{newsItem.creatorId}</em>
+                <em style={{padding: 20}}>{newsItem.createTime}</em>
               </div>
             </Card>
-          </div>
+          </Link>
         )
       })
       : '没有加载到任何新闻';

@@ -1,6 +1,8 @@
 import React from 'react'
-import {Row, Col, Card, Icon, Modal,
+import {Row, Col, Card, Icon, Modal, message,
 Tabs, Upload, Button, Input} from 'antd'
+import Constant from '../utils/constant'
+import {UserModel, NewsModel} from '../utils/dataModel'
 
 import MyEditor from './myEditor'
 
@@ -9,22 +11,21 @@ const TabPane = Tabs.TabPane;
 
 export default class UserCenterContent extends React.Component {
 
-  constructor() {
-    super()
-
-    this.state = {
+  initState = () => ({
       showUploadNews: false,
       previewImage: '',
       previewVisible: false,
-      fileList: [
-        {
-          uid: -1,
-          name: 'xxx.png',
-          status: 'done',
-          url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'
-        }
-      ]
+      fileList: [ ],
+      title: '',
+      titlePic: '',
+      newsAbstract: '',
+      content: '',
     }
+  )
+
+  constructor() {
+    super()
+    this.state = this.initState()
   }
 
   componentDidMount() {
@@ -36,11 +37,14 @@ export default class UserCenterContent extends React.Component {
   }
 
   closeUploadNews() {
-    this.setState({ showUploadNews: false})
+    this.setInitState()
+  }
+
+  setInitState = () => {
+    this.setState(this.initState())
   }
 
   handlePreview = (file) => {
-    console.log(file);
     this.setState({
       previewImage: file.url || file.thumbUrl,
       previewVisible: true
@@ -50,10 +54,64 @@ export default class UserCenterContent extends React.Component {
   handleCancel = () => this.setState({previewVisible: false});
 
   handleChange = ({fileList,file}) => {
-    if(file.status === 'done'){
-      console.log(file);
+    if (file.status === 'done') {
+      if (file.response.code === 200) {
+        this.setState({ titlePic: file.response.data})
+      } else {
+        message.error("图片上传失败")
+      }
     }
-    this.setState({fileList: fileList});
+    this.setState({fileList: fileList})
+  }
+
+  submitUploadNews = () => {
+    if (this.checkParam()) {
+      let userId = UserModel.getUserInfo().userId
+      let {title, titlePic, newsAbstract, content} = this.state
+      let param = {
+        title,
+        titlePic,
+        newsAbstract,
+        content,
+        creatorId: userId,
+      }
+      NewsModel.saveNews(param, (response) => {
+        if(response.code === 200){
+          message.success("上传成功")
+          this.setInitState()
+        } else {
+          message.error("上传失败")
+        }
+      }, (err) => {
+        console.log(err)
+      })
+    }
+  }
+
+  checkParam = () => {
+    if (UserModel.getUserInfo() === '') {
+      message.error("请先登录")
+      return false
+    }
+    const state = this.state
+    if (state.title === '' || state.titlePic === ''
+        || state.newsAbstract === '' || state.content === '') {
+      message.error("请完成必填项")
+      return false
+    }
+    return true
+  }
+
+  onTitleInput = (e) => {
+    this.setState({ title: e.target.value })
+  }
+
+  onAbstractInput = (e) => {
+    this.setState({ newsAbstract: e.target.value })
+  }
+
+  setHtmlContent = (content) => {
+    this.setState({ content })
   }
 
   render() {
@@ -63,8 +121,8 @@ export default class UserCenterContent extends React.Component {
       },
     }
 
-    const props = {
-      action: 'http://localhost:8080/news/upload',
+    const uploadProps = {
+      action: Constant.NEWS_PIC_UPLOAD_API,
       headers: {
         'Access-Control-Allow-Origin': '*'
       },
@@ -101,7 +159,7 @@ export default class UserCenterContent extends React.Component {
           <Col span={6}></Col>
           <Col span={6}>
             <Icon type="right" style={styles.paddingNum}/>标题:
-            <Input  placeholder="请输入标题" />
+            <Input  placeholder="请输入标题" onChange={this.onTitleInput}/>
           </Col>
           <Col span={3}></Col>
         </Row>
@@ -109,7 +167,8 @@ export default class UserCenterContent extends React.Component {
           <Col span={6}></Col>
           <Col span={6}>
             <Icon type="right" style={styles.paddingNum} />摘要:
-            <Input type="textarea"  placeholder="请输入摘要" autosize={{ minRows: 2, maxRows: 6 }} />
+            <Input type="textarea"  placeholder="请输入摘要" autosize={{ minRows: 2, maxRows: 6 }}
+              onChange={this.onAbstractInput}/>
           </Col>
           <Col span={3}></Col>
         </Row>
@@ -119,13 +178,11 @@ export default class UserCenterContent extends React.Component {
             <Icon type="right" style={styles.paddingNum} />上传展示图片
             <div className='clearfix'>
                 <Upload
-                    {...props}
+                    {...uploadProps}
                     fileList={this.state.fileList}
                     onPreview={this.handlePreview}
                     onChange={this.handleChange}>
-                    {this.state.fileList.length >= 3
-                      ? null
-                      : uploadButton}
+                    {this.state.fileList.length >= 1 ? null : uploadButton}
                   </Upload>
                   <Modal
                     visible={this.state.previewVisible}
@@ -141,7 +198,7 @@ export default class UserCenterContent extends React.Component {
           <Col span={6}></Col>
           <Col span={13}>
             <div style={{marginTop: 10}}>
-              <MyEditor/>
+              <MyEditor setHtmlContent={this.setHtmlContent}/>
             </div>
           </Col>
           <Col span={3}></Col>
@@ -150,7 +207,7 @@ export default class UserCenterContent extends React.Component {
           <Col span={6}></Col>
           <Col span={6}>
             <div style={styles.paddingNum}>
-              <Button type="dashed">提交</Button>&nbsp;&nbsp;&nbsp;
+              <Button type="dashed" onClick={this.submitUploadNews}>提交</Button>&nbsp;&nbsp;&nbsp;
               <Button type="dashed" onClick={this.closeUploadNews.bind(this)}>取消</Button>
             </div>
           </Col>

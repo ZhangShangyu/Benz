@@ -10,7 +10,8 @@ export default class MyEditor extends React.Component {
   }
 
   handleChange (html) {
-  	this.setState({ editorHtml: html });
+  	this.setState({ editorHtml: html })
+  	this.props.setHtmlContent(html)
   }
 
   render () {

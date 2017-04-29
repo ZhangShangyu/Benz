@@ -25,7 +25,7 @@ export default class Header extends React.Component {
   componentWillMount() {
     this.setState({current:this.props.selected});
     const userInfo = UserModel.getUserInfo();
-    if (userInfo != '') {
+    if (userInfo !== '') {
       this.setState({
         hasLogined: true,
         userNickName: userInfo.username,

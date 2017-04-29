@@ -61,16 +61,16 @@ function _request (_method, _api, _params, _onSuccess, _onError) {
 
 
 const UserModel = {
-    storeUser:(userInfo)=>{
+    storeUser: (userInfo) => {
         localStorage.setItem(USER_INFO,JSON.stringify(userInfo));
     },
-    getUserInfo:()=>{
-        return localStorage.getItem(USER_INFO) == '' ? '' : JSON.parse(localStorage.getItem(USER_INFO));
+    getUserInfo: () => {
+        return localStorage.getItem(USER_INFO) === '' ? '' : JSON.parse(localStorage.getItem(USER_INFO));
     },
-    register:(_params,_success,_error)=>{
+    register: (_params, _success, _error) => {
         _request('POST',`${API}/register`,_params,_success,_error)
     },
-    login:(_params,_success,_error)=>{
+    login: (_params, _success, _error) => {
         _request('POST',`${API}/login`,_params,_success,_error)
     },
     // getUserInfo:(_params,_success,_error)=>{
@@ -79,8 +79,14 @@ const UserModel = {
 }
 
 const NewsModel={
-    getNews:(param,success,error)=>{
+    getNews: (param, success, error) => {
       _request('GET', `${API}/news/get`, null, success, error)
+    },
+    saveNews: (param, success, error)=>{
+      _request('POST', `${API}/news/save`, param, success, error)
+    },
+    getNewsDetail: (param, success, error) => {
+      _request('GET', `${API}/news/detail`, param, success, error)
     },
     giveStar:(_params,_success,_error)=>{
         _request('POST',`${API}article/giveStar`,_params,_success,_error)
