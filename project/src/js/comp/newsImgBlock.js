@@ -1,5 +1,5 @@
 import React from 'react';
-import {Card} from 'antd';
+import {Card, Spin} from 'antd';
 import {Link} from 'react-router-dom';
 import { NewsModel } from '../utils/dataModel'
 
@@ -7,19 +7,34 @@ export default class NewsImgBlock extends React.Component {
   constructor() {
     super();
     this.state = {
-      news: ''
+      news: [],
+      currentPageNum: 0,
     };
   }
 
   componentDidMount() {
-    NewsModel.getNews(null, (data) => {
-      if (data.code == 200) {
-        this.setState( { news: data.data })
+    this.getPageContent(null)
+  }
+
+  getPageContent = (param) => {
+    NewsModel.getNews(param, (response) => {
+      if (response.code == 200) {
+        let currentPageNum = this.state.currentPageNum + 1;
+        let news = this.state.news.concat(response.data)
+        this.setState( { news, currentPageNum })
       }
     }, (err) => {
       console.log(err)
     })
   }
+
+  getNextPageContent = () => {
+    let param = {
+      pageNum: this.state.currentPageNum + 1,
+    }
+    this.getPageContent(param)
+  }
+
 
   render() {
     const styles = {
@@ -40,14 +55,22 @@ export default class NewsImgBlock extends React.Component {
         fontSize:14,
         marginBottom:20,
       },
+      loadAnother: {
+        textAlign: 'center',
+        background: 'rgba(0,0,0,0.05)',
+        borderRadius: 4,
+        padding: '10px 30px',
+        margin: '10px 0',
+        fontSize: 20,
+      }
     }
 
-
     const news = this.state.news
+
     const newsList = news.length
-      ? news.map((newsItem, index) => {
-      return (index < 6) &&
-        (<Link to={`news-detail/${newsItem.id}`} target='_blank' style={{ color: 'gray' }}>
+      ? news.map((newsItem, index) => (
+        <div key={index}>
+        <Link to={`news-detail/${newsItem.id}`} target='_blank' style={{ color: 'gray' }}>
             <Card>
               <img style={styles.image} src={newsItem.titlePic}/>
               <div style={styles.header}>
@@ -62,16 +85,36 @@ export default class NewsImgBlock extends React.Component {
                 <em style={{padding: 20}}>{newsItem.createTime}</em>
               </div>
             </Card>
-          </Link>
-        )
-      })
-      : '没有加载到任何新闻';
+        </Link>
+        </div>
+        ))
+      : (<Spin tip="Loading..."/>)
+
+    const loadAnother = news.length
+      ? (<div style={styles.loadAnother} onClick={this.getNextPageContent}>加载更多</div>)
+      : ''
 
     return (
+      <div>
       <Card title={this.props.cardTitle} style={{marginBottom: 15}}>
         {newsList}
+        {loadAnother}
       </Card>
+      </div>
     )
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 

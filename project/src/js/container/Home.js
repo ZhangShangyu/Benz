@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
-import Header from '../comp/header';
+import React, { Component } from 'react'
+import { BackTop } from 'antd'
+import Header from '../comp/header'
 import HomeContent from '../comp/homeContent'
 import Footer from '../comp/footer'
 
@@ -10,6 +11,7 @@ class Home extends Component {
         <Header selected={'home'}/>
         <HomeContent/>
         <Footer/>
+        <BackTop/>
       </div>
     );
   }

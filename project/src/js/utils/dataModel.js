@@ -80,7 +80,7 @@ const UserModel = {
 
 const NewsModel={
     getNews: (param, success, error) => {
-      _request('GET', `${API}/news/get`, null, success, error)
+      _request('GET', `${API}/news/get`, param, success, error)
     },
     saveNews: (param, success, error)=>{
       _request('POST', `${API}/news/save`, param, success, error)
