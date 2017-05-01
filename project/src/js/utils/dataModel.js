@@ -1,5 +1,7 @@
-const USER_INFO = 'userInfo'
-const API = 'http://localhost:8080'
+import Constant from './constant'
+
+const USER_INFO = Constant.USER_INFO
+const API = Constant.API
 
 const Tools = {
     checkStates: function (response) {
@@ -73,12 +75,9 @@ const UserModel = {
     login: (_params, _success, _error) => {
         _request('POST',`${API}/login`,_params,_success,_error)
     },
-    // getUserInfo:(_params,_success,_error)=>{
-    //     _request('GET',`${API}user/getUserInfo`,_params,_success,_error);
-    // },
 }
 
-const NewsModel={
+const NewsModel = {
     getNews: (param, success, error) => {
       _request('GET', `${API}/news/get`, param, success, error)
     },
@@ -88,12 +87,12 @@ const NewsModel={
     getNewsDetail: (param, success, error) => {
       _request('GET', `${API}/news/detail`, param, success, error)
     },
-    giveStar:(_params,_success,_error)=>{
-        _request('POST',`${API}article/giveStar`,_params,_success,_error)
-    },
-    comment:(_params,_success,_error)=>{
-        _request('POST',`${API}article/comment`,_params,_success,_error)
+}
+
+const HouseModel = {
+    getTopHouses: (param, success, error) => {
+      _request('GET', `${API}/house/tophouses`, param, success, error)
     }
 }
 
-export {UserModel,NewsModel}
+export {UserModel, NewsModel, HouseModel}

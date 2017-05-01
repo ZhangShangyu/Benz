@@ -1,6 +1,7 @@
 import React from 'react'
 import {Row, Col, Card, Icon, Modal, message,
 Tabs, Upload, Button, Input} from 'antd'
+import HouseEditor from './houseEditor'
 import Constant from '../utils/constant'
 import {UserModel, NewsModel} from '../utils/dataModel'
 
@@ -20,6 +21,8 @@ export default class UserCenterContent extends React.Component {
       titlePic: '',
       newsAbstract: '',
       content: '',
+
+      showUploadHouse: false,
     }
   )
 
@@ -33,11 +36,19 @@ export default class UserCenterContent extends React.Component {
   }
 
   showUploadNews() {
-    this.setState({ showUploadNews: true})
+    this.setState({ showUploadNews: true, showUploadHouse: false})
+  }
+
+  showUploadHouse = () => {
+    this.setState({ showUploadHouse: true, showUploadNews: false})
   }
 
   closeUploadNews() {
     this.setInitState()
+  }
+
+  closeUploadHouse = () => {
+    this.setState({showUploadHouse: false})
   }
 
   setInitState = () => {
@@ -153,6 +164,16 @@ export default class UserCenterContent extends React.Component {
       </Row>
     )
 
+    const houseEditorRow = (
+       <Row>
+          <Col span={2}></Col>
+          <Col span={20}>
+            <HouseEditor closeUploadHouse={this.closeUploadHouse}/>
+          </Col>
+          <Col span={2}></Col>
+      </Row>
+    )
+
     const newsEditorRow = (
       <div style={{marginTop:'3%'}}>
         <Row>
@@ -216,16 +237,26 @@ export default class UserCenterContent extends React.Component {
       </div>
     )
 
-    const contentRow = this.state.showUploadNews ? newsEditorRow : listRow
+    let contentRow = this.state.showUploadNews ? newsEditorRow : listRow
+    contentRow = this.state.showUploadHouse ? houseEditorRow : contentRow
 
     return (
       <div>
         <Row>
-          <Col span={3}></Col>
+          <Col span={4}></Col>
           <Col span={20} style={{marginTop:'3%'}}>
             { !this.state.showUploadNews &&
               <Button type="dashed" style={{fontWeight: 'bold', color: 'blue'}}
                       onClick={this.showUploadNews.bind(this)}>上传新闻</Button>
+            }
+          </Col>
+        </Row>
+        <Row>
+          <Col span={4}></Col>
+          <Col span={20} style={{marginTop:'1%'}}>
+            { !this.state.showUploadHouse &&
+              <Button type="dashed" style={{fontWeight: 'bold', color: 'blue'}}
+                      onClick={this.showUploadHouse}>上传房源</Button>
             }
           </Col>
         </Row>

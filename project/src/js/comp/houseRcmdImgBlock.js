@@ -1,25 +1,24 @@
 import React from 'react';
-import {Card} from 'antd';
+import {Card, Carousel, Spin} from 'antd';
 import {Link} from 'react-router-dom';
+import { HouseModel } from '../utils/dataModel'
 
 export default class HouseRcmdImgBlock extends React.Component {
   constructor() {
     super();
     this.state = {
-      news: ''
+      houseList: ''
     };
   }
 
   componentDidMount() {
-     var myFetchOptions = {
-      method: 'GET'
-    };
-    fetch('http://newsapi.gugujiankong.com/Handler.ashx?action=getnews&type=' + this.props.type + '&count=' + this.props.count, myFetchOptions)
-      .then(response => response.json())
-      .then(json => this.setState({news: json}))
-      .catch(error => {
-        console.log(error);
-      });
+    HouseModel.getTopHouses(null, (response) => {
+      if (response.code === 200) {
+        this.setState({ houseList: response.data })
+      }
+    }, (err) => {
+      console.log(err)
+    })
   }
 
   render() {
@@ -38,25 +37,59 @@ export default class HouseRcmdImgBlock extends React.Component {
       width:'100%',
     }
 
-    const news = this.state.news
-
-    const newsList = news.length
-      ? news.map((newsItem, index) => (
+    const content = (houseItem, index) => (
         <div key={index} style={styleDiv}>
-            <Link to={`details/${newsItem.uniquekey}`} target='_blank'>
-                <img style={styleImg} src={newsItem.thumbnail_pic_s} />
-                <div>
-                    <h3 style={styleH3}>{newsItem.title}</h3>
-                    <p>{newsItem.author_name}</p>
+            <Link to={`house-detail/${houseItem.houseId}`} target='_blank'>
+                <img style={styleImg} src={houseItem.headImg} />
+                <div style={{textAlign: 'center'}}>
+                    <h3 style={styleH3}>{houseItem.name}</h3>
                 </div>
             </Link>
         </div>
+    )
+
+    const loading = (<Spin tip="Loading..."/>)
+
+    const houseList = this.state.houseList
+
+    const childList1 = houseList.slice(0,6).length
+      ? houseList.slice(0,6).map((houseItem, index) => (
+        content(houseItem, index)
       ))
-      : '没有加载到任何新闻';
+      : loading
+
+    const childList2 = houseList.slice(6,12).length
+      ? houseList.slice(6,12).map((houseItem, index) => (
+        content(houseItem, index)
+      ))
+      : loading
+
+    const childList3 = houseList.slice(12,18).length
+      ? houseList.slice(12,18).map((houseItem, index) => (
+        content(houseItem, index)
+      ))
+      : loading
+
+    const allList = []
+    allList.push(childList1)
+    allList.push(childList2)
+    allList.push(childList3)
+
+    const settings = {
+      dots: false,
+      infinite: true,
+      speed: 500,
+      slidesToShow: 1,
+      autoplay: true,
+      // effect: 'fade',
+    };
 
     return (
       <Card title={this.props.cardTitle} className='topNewsList'>
-        {newsList}
+        <Carousel {...settings}>
+           {allList.map((item, index) =>
+             <div key={index}>{item}</div>)}
+        </Carousel>
       </Card>
     )
   }
