@@ -96,7 +96,7 @@ export default class NewsImgBlock extends React.Component {
 
     return (
       <div>
-      <Card title={this.props.cardTitle} style={{marginBottom: 15}}>
+      <Card title="新闻" style={{marginBottom: 15}}>
         {newsList}
         {loadAnother}
       </Card>

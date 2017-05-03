@@ -58,7 +58,7 @@ function _request (_method, _api, _params, _onSuccess, _onError) {
         })
         .catch((err)=>{
           _onError(err);
-        })
+    })
 }
 
 

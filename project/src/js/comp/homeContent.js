@@ -5,6 +5,7 @@ import HouseRcmdTextBlock from './houseRcmdTextBlock'
 import SearchBox from './searchBox'
 import NewsImgBlock from './newsImgBlock'
 
+
 const TabPane = Tabs.TabPane
 
 export default class HomeContent extends React.Component {
@@ -22,9 +23,8 @@ export default class HomeContent extends React.Component {
             <Row>
               <Col span={5}></Col>
               <Col span={11} className='container'>
-                <div >
-                   <HouseRcmdImgBlock
-                     count={6} type='guoji' cardTitle='房源推荐'/>
+                <div>
+                   <HouseRcmdImgBlock/>
                 </div>
                </Col>
               <Col span={1}></Col>
@@ -43,7 +43,7 @@ export default class HomeContent extends React.Component {
               <Col span={4}></Col>
               <Col span={13} style={{paddingTop:25}}>
                 <div style={{width:'100%',float:'left'}}>
-                   <NewsImgBlock cardTitle='新闻'/>
+                   <NewsImgBlock/>
                 </div>
               </Col>
               <Col span={1}></Col>

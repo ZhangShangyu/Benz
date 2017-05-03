@@ -39,7 +39,7 @@ export default class HouseRcmdImgBlock extends React.Component {
 
     const content = (houseItem, index) => (
         <div key={index} style={styleDiv}>
-            <Link to={`house-detail/${houseItem.houseId}`} target='_blank'>
+            <Link to={`house-detail/${houseItem.houseId}`} target='_blank' style={{color: '#666'}}>
                 <img style={styleImg} src={houseItem.headImg} />
                 <div style={{textAlign: 'center'}}>
                     <h3 style={styleH3}>{houseItem.name}</h3>
@@ -85,7 +85,7 @@ export default class HouseRcmdImgBlock extends React.Component {
     };
 
     return (
-      <Card title={this.props.cardTitle} className='topNewsList'>
+      <Card title="房源推荐" style={{marginBottom: 15}}>
         <Carousel {...settings}>
            {allList.map((item, index) =>
              <div key={index}>{item}</div>)}

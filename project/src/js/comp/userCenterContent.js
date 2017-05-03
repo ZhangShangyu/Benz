@@ -166,11 +166,11 @@ export default class UserCenterContent extends React.Component {
 
     const houseEditorRow = (
        <Row>
-          <Col span={2}></Col>
-          <Col span={20}>
+          <Col span={6}></Col>
+          <Col span={12}>
             <HouseEditor closeUploadHouse={this.closeUploadHouse}/>
           </Col>
-          <Col span={2}></Col>
+          <Col span={6}></Col>
       </Row>
     )
 
