@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button, Row, Col, Input, Icon,
-Checkbox, Cascader, Upload, Modal, message } from 'antd'
+Checkbox, Cascader, Modal, message } from 'antd'
 import { UserModel } from '../utils/dataModel'
 import MyUpload from '../comp/myUpload'
 const CheckboxGroup = Checkbox.Group

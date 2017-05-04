@@ -1,9 +1,9 @@
 import React from 'react';
-import {Card, Spin} from 'antd';
+import {Card, Spin, Tag} from 'antd';
 import {Link} from 'react-router-dom';
 import { NewsModel } from '../utils/dataModel'
 
-export default class NewsImgBlock extends React.Component {
+export default class HouseImgBlock extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -79,10 +79,15 @@ export default class NewsImgBlock extends React.Component {
               <div style={styles.content}>
                 <p>{newsItem.newsAbstract}</p>
               </div>
-              <div>
-                <em>类型：楼评</em>
-                <em style={{padding: 20}}>作者：{newsItem.creatorId}</em>
-                <em style={{padding: 20}}>{newsItem.createTime}</em>
+              <div style={{textAlign: 'right'}}>
+                <span style={{color: 'red', padding:10}}>
+                  <strong style={{fontSize: 22}}>6000</strong>元
+                </span>
+              </div>
+              <div style={{}}>
+                <Tag>blue</Tag>
+                <Tag>作者：{newsItem.creatorId}</Tag>
+                <Tag>{newsItem.createTime}</Tag>
               </div>
             </Card>
         </Link>
@@ -96,7 +101,7 @@ export default class NewsImgBlock extends React.Component {
 
     return (
       <div>
-      <Card title="新闻" style={{marginBottom: 15}}>
+      <Card title="房源信息" style={{marginBottom: 15}}>
         {newsList}
         {loadAnother}
       </Card>
@@ -104,17 +109,3 @@ export default class NewsImgBlock extends React.Component {
     )
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
