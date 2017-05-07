@@ -5,13 +5,13 @@ import { UserModel } from '../utils/dataModel'
 const FormItem = Form.Item;
 
 class Login extends React.Component {
-   static propTypes = {
-     formItemLayout: React.PropTypes.object.isRequired,
-     tailFormItemLayout: React.PropTypes.object.isRequired,
-     action: React.PropTypes.string.isRequired,
-     setHeaderState: React.PropTypes.func.isRequired,
-     setModalVisible: React.PropTypes.func.isRequired,
-  }
+  //  static propTypes = {
+  //    formItemLayout: React.PropTypes.object.isRequired,
+  //    tailFormItemLayout: React.PropTypes.object.isRequired,
+  //    action: React.PropTypes.string.isRequired,
+  //    setHeaderState: React.PropTypes.func.isRequired,
+  //    setModalVisible: React.PropTypes.func.isRequired,
+  // }
 
   constructor() {
     super();

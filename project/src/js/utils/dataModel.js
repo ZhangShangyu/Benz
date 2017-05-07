@@ -40,7 +40,7 @@ const Tools = {
  */
 function _request (_method, _api, _params, _onSuccess, _onError) {
     let _options = {
-        method:_method,
+        method: _method,
         mode:'cors',
         headers:{
           'Content-Type':'application/json',
@@ -92,7 +92,13 @@ const NewsModel = {
 const HouseModel = {
     getTopHouses: (param, success, error) => {
       _request('GET', `${API}/house/tophouses`, param, success, error)
-    }
+    },
+    saveHouse: (param, success, error) => {
+      _request('POST', `${API}/house/save`, param, success, error)
+    },
+    getHouseByCondition: (param, success, error) => {
+      _request('GET', `${API}/house/condition`, param, success, error)
+    },
 }
 
 export {UserModel, NewsModel, HouseModel}

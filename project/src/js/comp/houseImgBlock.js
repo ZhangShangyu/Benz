@@ -1,19 +1,31 @@
 import React from 'react';
 import {Card, Spin, Tag} from 'antd';
 import {Link} from 'react-router-dom';
-import { NewsModel } from '../utils/dataModel'
+import { NewsModel, HouseModel } from '../utils/dataModel'
 
 export default class HouseImgBlock extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       news: [],
       currentPageNum: 0,
+      searchCondition: this.props.searchCondition
     };
   }
 
   componentDidMount() {
     this.getPageContent(null)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    let param = nextProps.searchCondition
+    HouseModel.getHouseByCondition(param, (response) => {
+      if (response.code === 200) {
+        console.log(response.data)
+      }
+    }, (err) => {
+      console.log(err)
+    })
   }
 
   getPageContent = (param) => {
@@ -34,7 +46,6 @@ export default class HouseImgBlock extends React.Component {
     }
     this.getPageContent(param)
   }
-
 
   render() {
     const styles = {
