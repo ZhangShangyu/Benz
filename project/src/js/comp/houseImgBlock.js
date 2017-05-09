@@ -7,21 +7,26 @@ export default class HouseImgBlock extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      news: [],
+      houses: [],
       currentPageNum: 0,
-      searchCondition: this.props.searchCondition
+      // searchCondition: this.props.searchCondition
     };
   }
 
   componentDidMount() {
-    this.getPageContent(null)
+    let param = this.props.searchCondition
+    this.getData(param)
   }
 
   componentWillReceiveProps(nextProps) {
     let param = nextProps.searchCondition
+    this.getData(param)
+  }
+
+  getData = (param) => {
     HouseModel.getHouseByCondition(param, (response) => {
       if (response.code === 200) {
-        console.log(response.data)
+        this.setState({ houses: response.data})
       }
     }, (err) => {
       console.log(err)
@@ -76,29 +81,30 @@ export default class HouseImgBlock extends React.Component {
       }
     }
 
-    const news = this.state.news
+    const houses = this.state.houses
 
-    const newsList = news.length
-      ? news.map((newsItem, index) => (
+    const houseList = houses.length
+      ? houses.map((houseItem, index) => (
         <div key={index}>
-        <Link to={`news-detail/${newsItem.id}`} target='_blank' style={{ color: 'gray' }}>
+        <Link to={`news-detail/${houseItem.id}`} target='_blank' style={{ color: 'gray' }}>
             <Card>
-              <img style={styles.image} src={newsItem.titlePic}/>
+              <img style={styles.image} src={houseItem.headImg}/>
               <div style={styles.header}>
-                <h3>{newsItem.title}</h3>
+                <h3>{houseItem.name}</h3>
               </div>
               <div style={styles.content}>
-                <p>{newsItem.newsAbstract}</p>
+                <p>{houseItem.des}</p>
               </div>
               <div style={{textAlign: 'right'}}>
                 <span style={{color: 'red', padding:10}}>
-                  <strong style={{fontSize: 22}}>6000</strong>元
+                  <strong style={{fontSize: 22}}>{houseItem.price}</strong>元
                 </span>
               </div>
               <div style={{}}>
-                <Tag>blue</Tag>
-                <Tag>作者：{newsItem.creatorId}</Tag>
-                <Tag>{newsItem.createTime}</Tag>
+                { houseItem.tagNames.map((tagItem, index) => (
+                  <Tag key={index}>{tagItem}</Tag>
+                  ))
+                }
               </div>
             </Card>
         </Link>
@@ -106,14 +112,14 @@ export default class HouseImgBlock extends React.Component {
         ))
       : (<Spin tip="Loading..."/>)
 
-    const loadAnother = news.length
+    const loadAnother = houses.length
       ? (<div style={styles.loadAnother} onClick={this.getNextPageContent}>加载更多</div>)
       : ''
 
     return (
       <div>
       <Card title="房源信息" style={{marginBottom: 15}}>
-        {newsList}
+        {houseList}
         {loadAnother}
       </Card>
       </div>

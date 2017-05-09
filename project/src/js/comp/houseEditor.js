@@ -64,14 +64,8 @@ export default class HouseEditor extends React.Component {
 
   wrapParam = () => {
     let state = this.state
-    let tagIds = []
-    tagIds.push(state.regionTagId)
-    tagIds.push(state.typeTagId)
-    tagIds.push(state.decTagId)
-    if (state.subwayRouteTagId !== 0) {
-      tagIds.push(state.subwayRouteTagId)
-      tagIds.push(state.subwayStationTagId)
-    }
+    let routeTag = state.subwayRouteTagId === undefined ? 0 : state.subwayRouteTagId
+    let stationTag = state.subwayStationTagId === undefined ? 0 : state.subwayStationTagId
     let param = {
       name : state.name,
       position: state.position,
@@ -83,7 +77,11 @@ export default class HouseEditor extends React.Component {
       cityId: 1,
       creatorName: UserModel.getUserInfo().username,
       imgUrls: state.uploadImgUrls,
-      tagIds
+      regionTag: state.regionTagId,
+      typeTag: state.typeTagId,
+      decTag: state.decTagId,
+      routeTag,
+      stationTag,
     }
     return param
   }
