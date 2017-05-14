@@ -1,44 +1,49 @@
 import React from 'react';
 import {Card, Spin, Tag} from 'antd';
 import {Link} from 'react-router-dom';
-import { NewsModel, HouseModel } from '../utils/dataModel'
+import { HouseModel } from '../utils/dataModel'
 
 export default class HouseImgBlock extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
+
+  initState = () => ({
       houses: [],
       currentPageNum: 0,
       // searchCondition: this.props.searchCondition
-    };
+    }
+  )
+
+  constructor(props) {
+    super(props);
+    this.state = this.initState()
   }
 
   componentDidMount() {
     let param = this.props.searchCondition
-    this.getData(param)
+    this.getPageContent(param)
   }
 
   componentWillReceiveProps(nextProps) {
     let param = nextProps.searchCondition
-    this.getData(param)
+    let searchKey = nextProps.searchKey
+    if (searchKey !== "") {
+      param.searchKey = searchKey
+    }
+    this.getPageContent(param, true)
   }
 
-  getData = (param) => {
+  getPageContent = (param, isFromPropUp) => {
     HouseModel.getHouseByCondition(param, (response) => {
       if (response.code === 200) {
-        this.setState({ houses: response.data})
-      }
-    }, (err) => {
-      console.log(err)
-    })
-  }
-
-  getPageContent = (param) => {
-    NewsModel.getNews(param, (response) => {
-      if (response.code == 200) {
-        let currentPageNum = this.state.currentPageNum + 1;
-        let news = this.state.news.concat(response.data)
-        this.setState( { news, currentPageNum })
+        let currentPageNum
+        let houses
+        if (isFromPropUp) {
+          currentPageNum = 1
+          houses = response.data
+        } else {
+          currentPageNum = this.state.currentPageNum + 1;
+          houses = this.state.houses.concat(response.data)
+        }
+        this.setState({ houses, currentPageNum })
       }
     }, (err) => {
       console.log(err)
@@ -46,8 +51,11 @@ export default class HouseImgBlock extends React.Component {
   }
 
   getNextPageContent = () => {
-    let param = {
-      pageNum: this.state.currentPageNum + 1,
+    let param = this.props.searchCondition
+    param.pageNum = this.state.currentPageNum + 1
+    let searchKey = this.props.searchKey
+    if (searchKey !== "") {
+      param.searchKey = searchKey
     }
     this.getPageContent(param)
   }

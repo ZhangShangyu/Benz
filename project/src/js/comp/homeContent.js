@@ -2,7 +2,6 @@ import React from 'react'
 import {Row, Col, Tabs} from 'antd'
 import HouseRcmdImgBlock from './houseRcmdImgBlock'
 import HouseRcmdTextBlock from './houseRcmdTextBlock'
-import SearchBox from './searchBox'
 import NewsImgBlock from './newsImgBlock'
 
 
@@ -16,7 +15,7 @@ export default class HomeContent extends React.Component {
             <Row>
               <Col span={8}></Col>
               <Col span={8} style={{marginTop:25}}>
-                <SearchBox/>
+                {/*<SearchBox/>*/}
               </Col>
               <Col span={8}></Col>
             </Row>

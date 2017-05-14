@@ -137,6 +137,7 @@ export default class HouseEditor extends React.Component {
 
   onDecorationChecked = (e) => {
     this.setState({decTagId: e.target.value})
+    console.log("e " + JSON.stringify(e.target))
   }
 
   onSubwaySelected = (value) => {
@@ -155,7 +156,7 @@ export default class HouseEditor extends React.Component {
     const regionOptions = [
       { label: '浦东', value: 1 },
       { label: '杨浦', value: 2 },
-      { label: '黄埔', value: 3 },
+      { label: '黄浦', value: 3 },
     ]
 
     const typeOptions = [

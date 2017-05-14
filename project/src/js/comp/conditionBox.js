@@ -24,6 +24,12 @@ export default class ConditionBox extends React.Component{
     this.state = this.initState()
   }
 
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.needReset) {
+      this.setInitState()
+    }
+  }
+
   setInitState = () => {
     this.setState(this.initState())
   }
@@ -62,15 +68,15 @@ export default class ConditionBox extends React.Component{
 
   setSearchCondition = () => {
     let condition = {}
-    let {regionValue, priceValue, areaValue, typeValue,
-      decValue, subwayRouteValue, subwayStationValue} = this.state
-    regionValue !== 0 ? condition.region = regionValue : ''
+    let { regionValue, priceValue, areaValue, typeValue,
+          decValue, subwayRouteValue, subwayStationValue  } = this.state
+    regionValue !== 0 ? condition.regionLabel = regionValue : ''
     areaValue !== 0 ? condition.area = areaValue : ''
     priceValue !== 0 ? condition.price = priceValue : ''
-    typeValue !== 0 ? condition.type = typeValue : ''
-    decValue !== 0 ? condition.dec = decValue : ''
-    subwayRouteValue !== 0 && subwayStationValue === 0 ? condition.route = subwayRouteValue : ''
-    subwayStationValue !== 0 ? condition.station = subwayStationValue : ''
+    typeValue !== 0 ? condition.typeLabel = typeValue : ''
+    decValue !== 0 ? condition.decLabel = decValue : ''
+    subwayRouteValue !== 0 && subwayStationValue === 0 ? condition.routeLabel = subwayRouteValue : ''
+    subwayStationValue !== 0 ? condition.stationLabel = subwayStationValue : ''
     this.props.setSearchCondition(condition)
   }
 
@@ -109,9 +115,9 @@ export default class ConditionBox extends React.Component{
 
     const regionOptions = [
       {value : 0, label: '不限'},
-      {value : 1, label: '浦东'},
-      {value : 2, label: '杨浦'},
-      {value : 3, label: '黄埔'},
+      {value : '浦东', label: '浦东'},
+      {value : '杨浦', label: '杨浦'},
+      {value : '黄浦', label: '黄浦'},
     ]
 
     const priceOptions = [
@@ -130,15 +136,15 @@ export default class ConditionBox extends React.Component{
 
     const typeOptions = [
       {value : 0, label: '不限'},
-      {value : 4, label: '两室'},
-      {value : 5, label: '三室'},
-      {value : 6, label: '一室'},
+      {value : '两室', label: '两室'},
+      {value : '三室', label: '三室'},
+      {value : '一室', label: '一室'},
     ]
 
     const decOptions = [
       {value : 0, label: '不限'},
-      {value : 7, label: '精装'},
-      {value : 8, label: '简装'},
+      {value : '精装', label: '精装'},
+      {value : '简装', label: '简装'},
     ]
 
     const regionList = regionOptions.map((item, index) => (
