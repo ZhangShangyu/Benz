@@ -2,6 +2,9 @@ import React from 'react'
 import {Row, Col, Card, Icon, Modal, message,
 Tabs, Upload, Button, Input} from 'antd'
 import HouseEditor from './houseEditor'
+import HouseListByMe from './houseListByMe'
+import NewsListByMe from './newsListByMe'
+
 import Constant from '../utils/constant'
 import {UserModel, NewsModel} from '../utils/dataModel'
 
@@ -77,14 +80,13 @@ export default class UserCenterContent extends React.Component {
 
   submitUploadNews = () => {
     if (this.checkParam()) {
-      let userId = UserModel.getUserInfo().userId
       let {title, titlePic, newsAbstract, content} = this.state
       let param = {
         title,
         titlePic,
         newsAbstract,
         content,
-        creatorId: userId,
+        creatorName: UserModel.getUserInfo().username,
       }
       NewsModel.saveNews(param, (response) => {
         if(response.code === 200){
@@ -152,9 +154,11 @@ export default class UserCenterContent extends React.Component {
           <Col span={2}></Col>
           <Col span={20}>
             <Tabs style={{padding:40}}>
-              <TabPane tab=' 我的收藏列表' key='1'>
+              <TabPane tab='我发布的房源' key='1'>
+                <HouseListByMe/>
               </TabPane>
-              <TabPane tab='我的评论列表' key='2'>
+              <TabPane tab='我发布的新闻' key='2'>
+                <NewsListByMe/>
               </TabPane>
               <TabPane tab='头像设置' key='3'>
               </TabPane>

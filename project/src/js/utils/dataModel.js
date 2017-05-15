@@ -87,6 +87,9 @@ const NewsModel = {
     getNewsDetail: (param, success, error) => {
       _request('GET', `${API}/news/detail`, param, success, error)
     },
+    getNewsByMe: (param, success, error) => {
+      _request('GET', `${API}/news/news-by-me`, param, success, error)
+    },
 }
 
 const HouseModel = {
@@ -98,6 +101,9 @@ const HouseModel = {
     },
     getHouseByCondition: (param, success, error) => {
       _request('GET', `${API}/house/condition`, param, success, error)
+    },
+    getHouseByMe: (param, success, error) => {
+      _request('GET', `${API}/house/house-by-me`, param, success, error)
     },
 }
 
