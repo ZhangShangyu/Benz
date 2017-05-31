@@ -105,6 +105,12 @@ const HouseModel = {
     getHouseByMe: (param, success, error) => {
       _request('GET', `${API}/house/house-by-me`, param, success, error)
     },
+    getHouseDetail: (param, success, error) => {
+      _request('GET', `${API}/house/detail`, param, success, error)
+    },
+    addBrowseCount: (param, success, error) => {
+      _request('GET', `${API}/house/addcount`, param, success, error)
+    },
 }
 
 export {UserModel, NewsModel, HouseModel}

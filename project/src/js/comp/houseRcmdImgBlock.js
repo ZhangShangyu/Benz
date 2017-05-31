@@ -85,7 +85,7 @@ export default class HouseRcmdImgBlock extends React.Component {
     };
 
     return (
-      <Card title="房源推荐" style={{marginBottom: 15}}>
+      <Card title="最新房源" style={{marginBottom: 15}}>
         <Carousel {...settings}>
            {allList.map((item, index) =>
              <div key={index}>{item}</div>)}

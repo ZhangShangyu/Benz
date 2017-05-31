@@ -94,7 +94,7 @@ export default class HouseImgBlock extends React.Component {
     const houseList = houses.length
       ? houses.map((houseItem, index) => (
         <div key={index}>
-        <Link to={`news-detail/${houseItem.id}`} target='_blank' style={{ color: 'gray' }}>
+        <Link to={`house-detail/${houseItem.houseId}`} target='_blank' style={{ color: 'gray' }}>
             <Card>
               <img style={styles.image} src={houseItem.headImg}/>
               <div style={styles.header}>

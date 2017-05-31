@@ -4,6 +4,7 @@ import Home from './js/container/Home'
 import House from './js/container/House'
 import UserCenter from './js/container/UserCenter'
 import NewsDetail from './js/container/NewsDetail'
+import HouseDetail from './js/container/HouseDetail'
 import { HashRouter as Router, Route } from 'react-router-dom'
 import 'antd/dist/antd.css'
 import './css/pc.css'
@@ -18,6 +19,7 @@ export default class Root extends React.Component {
             <Route path="/usercenter" component={UserCenter}/>
             <Route path="/house" component={House}/>
             <Route path="/news-detail/:id" component={NewsDetail}/>
+            <Route path="/house-detail/:id" component={HouseDetail}/>
           </div>
         </Router>
       </div>

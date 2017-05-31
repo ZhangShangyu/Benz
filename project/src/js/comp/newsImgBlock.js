@@ -74,7 +74,7 @@ export default class NewsImgBlock extends React.Component {
             <Card>
               <img style={styles.image} src={newsItem.titlePic}/>
               <div style={styles.header}>
-                <h3>{newsItem.title}</h3>
+                <h3 style={{color: 'black'}}>{newsItem.title}</h3>
               </div>
               <div style={styles.content}>
                 <p>{newsItem.newsAbstract}</p>
@@ -96,7 +96,7 @@ export default class NewsImgBlock extends React.Component {
 
     return (
       <div>
-      <Card title="新闻" style={{marginBottom: 15}}>
+      <Card title="楼讯" style={{marginBottom: 15}}>
         {newsList}
         {loadAnother}
       </Card>
