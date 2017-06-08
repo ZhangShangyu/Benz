@@ -100,7 +100,7 @@ export default class Header extends React.Component {
           <Col span={4}>
             <a href='/' className='logo'>
               <img src={logo} alt='logo'/>
-              <span>Benz</span>
+              <span>房产信息网</span>
             </a>
           </Col>
           <Col span={16}>
@@ -114,7 +114,12 @@ export default class Header extends React.Component {
               </Menu.Item>
               <Menu.Item key='house'>
                 <Link to={`/house`} target='_blank'>
-                  <Icon type='appstore'/>房源
+                  <Icon type='appstore'/>租房
+                </Link>
+              </Menu.Item>
+              <Menu.Item key='sale'>
+                <Link to={`/sale-house`} target='_blank'>
+                  <Icon type='appstore'/>买房
                 </Link>
               </Menu.Item>
               {userShow}

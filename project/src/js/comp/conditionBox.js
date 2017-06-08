@@ -1,7 +1,8 @@
 import React from 'react'
-import { Card, Cascader } from 'antd'
+import {Card, Cascader} from 'antd'
+import Constant from '../utils/constant'
 
-export default class ConditionBox extends React.Component{
+export default class ConditionBox extends React.Component {
 
   initState = () => ({
       regionClickedIndex: 0,
@@ -25,7 +26,7 @@ export default class ConditionBox extends React.Component{
   }
 
   componentWillReceiveProps(nextProps) {
-    if(nextProps.needReset) {
+    if (nextProps.needReset) {
       this.setInitState()
     }
   }
@@ -34,26 +35,26 @@ export default class ConditionBox extends React.Component{
     this.setState(this.initState())
   }
 
-  onConditionClick (value, index, type) {
+  onConditionClick(value, index, type) {
     switch (type) {
       case 'region':
-        this.setState({ regionClickedIndex: index, regionValue: value },
+        this.setState({regionClickedIndex: index, regionValue: value},
           () => this.setSearchCondition())
         break
       case 'price':
-        this.setState({ priceClickedIndex: index, priceValue: value },
+        this.setState({priceClickedIndex: index, priceValue: value},
           () => this.setSearchCondition())
         break
       case 'area':
-        this.setState({ areaClickedIndex: index, areaValue: value },
+        this.setState({areaClickedIndex: index, areaValue: value},
           () => this.setSearchCondition())
         break;
       case 'type':
-        this.setState({ typeClickedIndex: index, typeValue: value },
+        this.setState({typeClickedIndex: index, typeValue: value},
           () => this.setSearchCondition())
         break
       case 'dec':
-        this.setState({ decClickedIndex: index, decValue: value },
+        this.setState({decClickedIndex: index, decValue: value},
           () => this.setSearchCondition())
         break
       default:
@@ -68,23 +69,27 @@ export default class ConditionBox extends React.Component{
 
   setSearchCondition = () => {
     let condition = {}
-    let { regionValue, priceValue, areaValue, typeValue,
-          decValue, subwayRouteValue, subwayStationValue  } = this.state
+    let {
+      regionValue, priceValue, areaValue, typeValue,
+      decValue, subwayRouteValue, subwayStationValue
+    } = this.state
     regionValue !== 0 ? condition.regionLabel = regionValue : ''
     areaValue !== 0 ? condition.area = areaValue : ''
     priceValue !== 0 ? condition.price = priceValue : ''
     typeValue !== 0 ? condition.typeLabel = typeValue : ''
     decValue !== 0 ? condition.decLabel = decValue : ''
-    subwayRouteValue !== 0 && subwayStationValue === 0 ? condition.routeLabel = subwayRouteValue : ''
-    subwayStationValue !== 0 ? condition.stationLabel = subwayStationValue : ''
+    subwayRouteValue !== 0 && subwayStationValue !== undefined
+      ? condition.routeLabel = subwayRouteValue : ''
+    subwayStationValue !== 0 && subwayStationValue !== undefined
+      ? condition.stationLabel = subwayStationValue : ''
     this.props.setSearchCondition(condition)
   }
 
   getClickStyle = (index, type) => {
-    let colorStyle = { color : 'grey'}
+    let colorStyle = {color: 'grey'}
     let state = this.state
     let dict = {
-      region:  state.regionClickedIndex,
+      region: state.regionClickedIndex,
       price: state.priceClickedIndex,
       area: state.areaClickedIndex,
       type: state.typeClickedIndex,
@@ -96,7 +101,7 @@ export default class ConditionBox extends React.Component{
     return colorStyle
   }
 
-  render () {
+  render() {
     const styles = {
       span: {
         marginRight: 15,
@@ -112,44 +117,20 @@ export default class ConditionBox extends React.Component{
         color: '#999',
       },
     }
+    const priceOptions = this.props.searchType === '1'
+      ? Constant.SALE_PRICE_OPTIONS : Constant.RENT_PRICE_OPTIONS
 
-    const regionOptions = [
-      {value : 0, label: '不限'},
-      {value : '浦东', label: '浦东'},
-      {value : '杨浦', label: '杨浦'},
-      {value : '黄浦', label: '黄浦'},
-    ]
+    const regionOptions = Constant.REGION_OPTIONS
 
-    const priceOptions = [
-      {value : 0, label: '不限'},
-      {value : '0-2000', label: '0-2000'},
-      {value : '2000-4000', label: '2000-4000'},
-      {value : '6000-8000', label: '6000-8000'},
-    ]
+    const areaOptions = Constant.AREA_OPTIONS
 
-    const areaOptions = [
-      {value : 0, label: '不限'},
-      {value : '0-30', label: '0-30'},
-      {value : '30-60', label: '30-60'},
-      {value : '60-120', label: '60-120'},
-    ]
+    const typeOptions = Constant.TYPE_OPTIONS
 
-    const typeOptions = [
-      {value : 0, label: '不限'},
-      {value : '两室', label: '两室'},
-      {value : '三室', label: '三室'},
-      {value : '一室', label: '一室'},
-    ]
-
-    const decOptions = [
-      {value : 0, label: '不限'},
-      {value : '精装', label: '精装'},
-      {value : '简装', label: '简装'},
-    ]
+    const decOptions = Constant.DEC_OPTIONS
 
     const regionList = regionOptions.map((item, index) => (
         <span key={index}
-            onClick={this.onConditionClick.bind(this, item.value, index, 'region')}>
+              onClick={this.onConditionClick.bind(this, item.value, index, 'region')}>
           <a style={this.getClickStyle(index, 'region')}>{item.label}</a> &nbsp;&nbsp;
         </span>
       )
@@ -157,7 +138,7 @@ export default class ConditionBox extends React.Component{
 
     const priceList = priceOptions.map((item, index) => (
         <span key={index}
-            onClick={this.onConditionClick.bind(this, item.value, index, 'price')}>
+              onClick={this.onConditionClick.bind(this, item.value, index, 'price')}>
           <a style={this.getClickStyle(index, 'price')}>{item.label}</a> &nbsp;&nbsp;
         </span>
       )
@@ -165,7 +146,7 @@ export default class ConditionBox extends React.Component{
 
     const areaList = areaOptions.map((item, index) => (
         <span key={index}
-            onClick={this.onConditionClick.bind(this, item.value, index, 'area')}>
+              onClick={this.onConditionClick.bind(this, item.value, index, 'area')}>
           <a style={this.getClickStyle(index, 'area')}>{item.label}</a> &nbsp;&nbsp;
         </span>
       )
@@ -173,7 +154,7 @@ export default class ConditionBox extends React.Component{
 
     const typeList = typeOptions.map((item, index) => (
         <span key={index}
-            onClick={this.onConditionClick.bind(this, item.value, index, 'type')}>
+              onClick={this.onConditionClick.bind(this, item.value, index, 'type')}>
           <a style={this.getClickStyle(index, 'type')}>{item.label}</a> &nbsp;&nbsp;
         </span>
       )
@@ -181,55 +162,42 @@ export default class ConditionBox extends React.Component{
 
     const decList = decOptions.map((item, index) => (
         <span key={index}
-            onClick={this.onConditionClick.bind(this, item.value, index, 'dec')}>
+              onClick={this.onConditionClick.bind(this, item.value, index, 'dec')}>
           <a style={this.getClickStyle(index, 'dec')}>{item.label}</a> &nbsp;&nbsp;
         </span>
       )
     )
 
-    const subwayOptions = [{
-        value: 9, label: '10号线',
-        children: [
-          {value: 0, label: '全线'},
-          {value: 11, label: '同济大学'},
-        ],
-      }, {
-        value: 10, label: '4号线',
-        children: [
-          {value: 0, label: '全线'},
-          {value: 12, label: '临平路'},
-        ],
-      }
-    ]
+    const subwayOptions = Constant.SUBWAY_OPTIONS
 
     return (
       <Card title="筛选条件">
-      <div>
-        <div style={styles.div}>
-          <span style={styles.span}>区域：</span>
-          {regionList}
+        <div>
+          <div style={styles.div}>
+            <span style={styles.span}>区域：</span>
+            {regionList}
+          </div>
+          <div style={styles.div}>
+            <span style={styles.span}>售价：</span>
+            {priceList}
+          </div>
+          <div style={styles.div}>
+            <span style={styles.span}>面积：</span>
+            {areaList}
+          </div>
+          <div style={styles.div}>
+            <span style={styles.span}>房型：</span>
+            {typeList}
+          </div>
+          <div style={styles.div}>
+            <span style={styles.span}>装修：</span>
+            {decList}
+          </div>
+          <div style={styles.div}>
+            <span style={styles.span2}>地铁：</span>
+            <Cascader options={subwayOptions} placeholder="不限" expandTrigger="hover" onChange={this.onSubwaySelected}/>
+          </div>
         </div>
-        <div style={styles.div}>
-          <span style={styles.span}>售价：</span>
-          {priceList}
-        </div>
-        <div style={styles.div}>
-          <span style={styles.span}>面积：</span>
-          {areaList}
-        </div>
-        <div style={styles.div}>
-          <span style={styles.span}>房型：</span>
-          {typeList}
-        </div>
-        <div style={styles.div}>
-          <span style={styles.span}>装修：</span>
-          {decList}
-        </div>
-        <div style={styles.div}>
-          <span style={styles.span2}>地铁：</span>
-          <Cascader options={subwayOptions} placeholder="不限" expandTrigger="hover" onChange={this.onSubwaySelected}/>
-        </div>
-      </div>
       </Card>
     )
   }

@@ -1,13 +1,14 @@
 import React from 'react'
 import {Table, Icon} from 'antd'
-import { NewsModel, UserModel } from '../utils/dataModel'
-const { Column } = Table
+import {Link} from 'react-router-dom'
+import {NewsModel, UserModel} from '../utils/dataModel'
+const {Column} = Table
 
-export default class NewsListByMe extends React.Component{
+export default class NewsListByMe extends React.Component {
 
-  constructor (props) {
+  constructor(props) {
     super(props)
-    this.state = { news: [] }
+    this.state = {news: []}
   }
 
   componentDidMount() {
@@ -20,7 +21,7 @@ export default class NewsListByMe extends React.Component{
     }
     NewsModel.getNewsByMe(param, (response) => {
       if (response.code === 200) {
-        this.setState({ news: response.data })
+        this.setState({news: response.data})
       }
     }, (err) => {
       console.log(err)
@@ -28,11 +29,11 @@ export default class NewsListByMe extends React.Component{
   }
 
 
-  editNews (newsId) {
+  editNews(newsId) {
     console.log(newsId)
   }
 
-  render () {
+  render() {
     return (
       <Table dataSource={this.state.news}>
         <Column title="楼讯" dataIndex="title" key="title"/>
@@ -40,10 +41,10 @@ export default class NewsListByMe extends React.Component{
         <Column title="操作" key="action"
                 render={(text, record) => (
                   <span>
-                    <a>查看</a>
-                    <span className="ant-divider" />
+                     <Link to={`news-detail/${record.id}`}>查看</Link>
+                    <span className="ant-divider"/>
                     <a onClick={ this.editNews.bind(this, record.id) }>编辑</a>
-                    <span className="ant-divider" />
+                    <span className="ant-divider"/>
                     <a>删除</a>
                   </span>
                 )}/>

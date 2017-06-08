@@ -42,7 +42,8 @@ class Login extends React.Component {
                   UserModel.storeUser({
                     username: formData.username,
                     password: formData.password,
-                    userId: data.data,
+                    userId: data.data.id,
+                    role:data.data.roleId,
                   })
                   message.success('登录成功')
                 } else {

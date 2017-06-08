@@ -1,14 +1,13 @@
 import React from 'react';
 import {Card, Spin, Tag} from 'antd';
 import {Link} from 'react-router-dom';
-import { HouseModel } from '../utils/dataModel'
+import {HouseModel} from '../utils/dataModel'
 
 export default class HouseImgBlock extends React.Component {
 
   initState = () => ({
       houses: [],
       currentPageNum: 0,
-      // searchCondition: this.props.searchCondition
     }
   )
 
@@ -32,6 +31,7 @@ export default class HouseImgBlock extends React.Component {
   }
 
   getPageContent = (param, isFromPropUp) => {
+    param.saleType = this.props.searchType
     HouseModel.getHouseByCondition(param, (response) => {
       if (response.code === 200) {
         let currentPageNum
@@ -43,7 +43,7 @@ export default class HouseImgBlock extends React.Component {
           currentPageNum = this.state.currentPageNum + 1;
           houses = this.state.houses.concat(response.data)
         }
-        this.setState({ houses, currentPageNum })
+        this.setState({houses, currentPageNum})
       }
     }, (err) => {
       console.log(err)
@@ -61,6 +61,8 @@ export default class HouseImgBlock extends React.Component {
   }
 
   render() {
+    const unit = this.props.searchType === '1' ? '万元' : '元'
+
     const styles = {
       image: {
         display: 'block',
@@ -72,12 +74,12 @@ export default class HouseImgBlock extends React.Component {
       header: {
         marginTop: 10,
         fontSize: 18,
-        wordWrap:'break-word'
+        wordWrap: 'break-word'
       },
       content: {
-        fontSize:14,
-        marginBottom:20,
-        wordWrap:'break-word'
+        fontSize: 14,
+        marginBottom: 20,
+        wordWrap: 'break-word'
       },
       loadAnother: {
         textAlign: 'center',
@@ -94,7 +96,7 @@ export default class HouseImgBlock extends React.Component {
     const houseList = houses.length
       ? houses.map((houseItem, index) => (
         <div key={index}>
-        <Link to={`house-detail/${houseItem.houseId}`} target='_blank' style={{ color: 'gray' }}>
+          <Link to={`house-detail/${houseItem.houseId}`} target='_blank' style={{color: 'gray'}}>
             <Card>
               <img style={styles.image} src={houseItem.headImg}/>
               <div style={styles.header}>
@@ -104,21 +106,21 @@ export default class HouseImgBlock extends React.Component {
                 <p>{houseItem.des}</p>
               </div>
               <div style={{textAlign: 'right'}}>
-                <span style={{color: 'red', padding:10}}>
-                  <strong style={{fontSize: 22}}>{houseItem.price}</strong>元
+                <span style={{color: 'red', padding: 10}}>
+                  <strong style={{fontSize: 22}}>{houseItem.price}</strong>{unit}
                 </span>
               </div>
               <div style={{}}>
                 { houseItem.tagNames.map((tagItem, index) => (
                   <Tag key={index}>{tagItem}</Tag>
-                  ))
+                ))
                 }
               </div>
             </Card>
-        </Link>
+          </Link>
         </div>
-        ))
-      : (<Spin tip="Loading..."/>)
+      ))
+      : (<Spin tip="抱歉，没有符合条件的结果..."/>)
 
     const loadAnother = houses.length
       ? (<div style={styles.loadAnother} onClick={this.getNextPageContent}>加载更多</div>)
@@ -126,10 +128,10 @@ export default class HouseImgBlock extends React.Component {
 
     return (
       <div>
-      <Card title="房源信息" style={{marginBottom: 15}}>
-        {houseList}
-        {loadAnother}
-      </Card>
+        <Card title="房源信息" style={{marginBottom: 15}}>
+          {houseList}
+          {loadAnother}
+        </Card>
       </div>
     )
   }

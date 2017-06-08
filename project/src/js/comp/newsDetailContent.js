@@ -32,19 +32,31 @@ export default class NewsDetailContent extends React.Component {
   }
 
   render() {
+
     return (
+      <div>
+       <Row>
+        <Col span={4}></Col>
+        <Col span={16}>
+         <div style={{textAlign: 'center',marginTop: '10%'}}>
+              <h1>嘉定离市区较近楼盘推荐</h1>
+         </div>
+        </Col>
+        <Col span={4}></Col>
+      </Row>
       <Row>
-        <Col span={2}></Col>
-        <Col span={20}>
-         <div style={{ marginTop: '10%' }}
+        <Col span={4}></Col>
+        <Col span={16}>
+         <div style={{ marginTop: '2%', marginLeft: '20%', marginRight: '20%',whiteSpace:'pre-wrap'}}
               dangerouslySetInnerHTML={{
               __html: this.createMarkup()
             }}>
          </div>
 
         </Col>
-        <Col span={2}></Col>
+        <Col span={4}></Col>
       </Row>
+      </div>
     )
   }
 }
