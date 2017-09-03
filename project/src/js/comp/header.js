@@ -21,7 +21,6 @@ export default class Header extends React.Component {
       userId: 0
     };
   }
-
   componentWillMount() {
     this.setState({current:this.props.selected});
     const userInfo = UserModel.getUserInfo();

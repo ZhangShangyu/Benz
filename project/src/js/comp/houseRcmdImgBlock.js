@@ -64,16 +64,9 @@ export default class HouseRcmdImgBlock extends React.Component {
       ))
       : loading
 
-    const childList3 = houseList.slice(12, 18).length
-      ? houseList.slice(12, 18).map((houseItem, index) => (
-        content(houseItem, index)
-      ))
-      : loading
-
     const allList = []
     allList.push(childList1)
     allList.push(childList2)
-    allList.push(childList3)
 
     const settings = {
       dots: false,

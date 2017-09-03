@@ -7,7 +7,10 @@ export default class NewsDetailContent extends React.Component {
   constructor() {
     super();
     this.state = {
-      newsContent: ''
+      news:{
+        content: '',
+        title: '',
+      }
     };
   }
 
@@ -17,7 +20,7 @@ export default class NewsDetailContent extends React.Component {
     }
     NewsModel.getNewsDetail(param, (response) => {
       if (response.code === 200) {
-        this.setState({ newsContent: response.data })
+        this.setState({ news: response.data })
       } else {
         message.error("获取新闻详情失败")
       }
@@ -28,7 +31,7 @@ export default class NewsDetailContent extends React.Component {
   }
 
   createMarkup() {
-    return this.state.newsContent;
+    return this.state.news.content;
   }
 
   render() {
@@ -39,7 +42,7 @@ export default class NewsDetailContent extends React.Component {
         <Col span={4}></Col>
         <Col span={16}>
          <div style={{textAlign: 'center',marginTop: '10%'}}>
-              <h1>嘉定离市区较近楼盘推荐</h1>
+              <h1>{this.state.news.title}</h1>
          </div>
         </Col>
         <Col span={4}></Col>
